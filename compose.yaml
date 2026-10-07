@@ -1,0 +1,147 @@
+name: bancoxyz-eft
+
+x-service-environment: &service-environment
+  CONFIG_SERVER_URL: http://config-server:8888
+  EUREKA_URL: http://discovery-server:8761/eureka/
+  JWT_JWK_SET_URI: http://auth-server:9000/oauth2/jwks
+  KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: bancoxyz
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-bancoxyz}
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/01-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bancoxyz -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [bancoxyz]
+
+  kafka:
+    image: apache/kafka:4.1.1
+    ports:
+      - "29092:29092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: INTERNAL://:9092,CONTROLLER://:9093,EXTERNAL://:29092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks: [bancoxyz]
+
+  config-server:
+    build: ./config-server
+    ports: ["8888:8888"]
+    networks: [bancoxyz]
+
+  discovery-server:
+    build: ./discovery-server
+    ports: ["8761:8761"]
+    networks: [bancoxyz]
+
+  auth-server:
+    build: ./auth-server
+    ports: ["9000:9000"]
+    environment:
+      OAUTH2_ISSUER_URI: http://auth-server:9000
+      WEB_CLIENT_SECRET: ${WEB_CLIENT_SECRET:-web-secret}
+      MOBILE_CLIENT_SECRET: ${MOBILE_CLIENT_SECRET:-mobile-secret}
+      ATM_CLIENT_SECRET: ${ATM_CLIENT_SECRET:-atm-secret}
+      INTERNAL_CLIENT_SECRET: ${INTERNAL_CLIENT_SECRET:-internal-secret}
+    networks: [bancoxyz]
+
+  customer-service:
+    build: ./customer-service
+    environment:
+      <<: *service-environment
+      DATABASE_URL: jdbc:postgresql://postgres:5432/customer_db
+      DATABASE_USERNAME: bancoxyz
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-bancoxyz}
+    depends_on:
+      postgres: {condition: service_healthy}
+      kafka: {condition: service_healthy}
+      config-server: {condition: service_started}
+      discovery-server: {condition: service_started}
+      auth-server: {condition: service_started}
+    networks: [bancoxyz]
+
+  account-service:
+    build: ./account-service
+    environment:
+      <<: *service-environment
+      DATABASE_URL: jdbc:postgresql://postgres:5432/account_db
+      DATABASE_USERNAME: bancoxyz
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-bancoxyz}
+    depends_on:
+      postgres: {condition: service_healthy}
+      config-server: {condition: service_started}
+      discovery-server: {condition: service_started}
+      auth-server: {condition: service_started}
+    networks: [bancoxyz]
+
+  payment-service:
+    build: ./payment-service
+    environment:
+      <<: *service-environment
+      DATABASE_URL: jdbc:postgresql://postgres:5432/payment_db
+      DATABASE_USERNAME: bancoxyz
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-bancoxyz}
+      CUENTAS_URL: http://account-service
+    depends_on:
+      postgres: {condition: service_healthy}
+      kafka: {condition: service_healthy}
+      account-service: {condition: service_started}
+    networks: [bancoxyz]
+
+  bff-web:
+    build: ./bff-web
+    ports: ["8081:8081"]
+    environment: *service-environment
+    depends_on:
+      customer-service: {condition: service_started}
+      account-service: {condition: service_started}
+      payment-service: {condition: service_started}
+    networks: [bancoxyz]
+
+  bff-mobile:
+    build: ./bff-mobile
+    ports: ["8082:8082"]
+    environment: *service-environment
+    depends_on:
+      customer-service: {condition: service_started}
+      account-service: {condition: service_started}
+      payment-service: {condition: service_started}
+    networks: [bancoxyz]
+
+  bff-atm:
+    build: ./bff-atm
+    ports: ["8083:8083"]
+    environment: *service-environment
+    depends_on:
+      account-service: {condition: service_started}
+      payment-service: {condition: service_started}
+    networks: [bancoxyz]
+
+networks:
+  bancoxyz:
+
+volumes:
+  postgres-data:
