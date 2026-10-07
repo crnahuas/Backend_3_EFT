@@ -1,0 +1,43 @@
+flowchart LR
+    subgraph Canales
+        WEB[Canal web]
+        MOVIL[Aplicación móvil]
+        ATM[Cajero automático]
+    end
+    subgraph BFF
+        BW[bff-web]
+        BM[bff-mobile]
+        BA[bff-atm]
+    end
+    AUTH[auth-server<br/>OAuth2 y JWT]
+    CONFIG[config-server]
+    EUREKA[discovery-server<br/>Eureka]
+    subgraph Dominios
+        CUSTOMER[customer-service]
+        ACCOUNT[account-service]
+        PAYMENT[payment-service]
+    end
+    KAFKA[(Kafka)]
+    CDB[(customer_db)]
+    ADB[(account_db)]
+    PDB[(payment_db)]
+    BATCH[batch-service]
+    H2[(H2 batch)]
+    CSV[(9 archivos CSV)]
+    WEB --> BW
+    MOVIL --> BM
+    ATM --> BA
+    BW & BM & BA --> AUTH
+    BW & BM --> CUSTOMER
+    BW & BM & BA --> ACCOUNT
+    BW & BM & BA --> PAYMENT
+    PAYMENT --> ACCOUNT
+    PAYMENT --> KAFKA
+    KAFKA --> CUSTOMER
+    CUSTOMER --> CDB
+    ACCOUNT --> ADB
+    PAYMENT --> PDB
+    CONFIG -. propiedades .-> BW & BM & BA & CUSTOMER & ACCOUNT & PAYMENT
+    EUREKA -. descubrimiento .-> BW & BM & BA & CUSTOMER & ACCOUNT & PAYMENT
+    CSV --> BATCH --> H2
+

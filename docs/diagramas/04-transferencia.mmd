@@ -1,0 +1,29 @@
+sequenceDiagram
+    actor Usuario
+    participant Mobile as bff-mobile
+    participant Pago as payment-service
+    participant Cuenta as account-service
+    participant Kafka
+    participant Cliente as customer-service
+    Usuario->>Mobile: POST transferencia + JWT + idempotency key
+    Mobile->>Pago: Propaga token, payload y clave
+    Pago->>Pago: Buscar operación por clave
+    alt Operación ya registrada
+        Pago-->>Mobile: Devolver mismo pago
+    else Operación nueva
+        Pago->>Cuenta: Consultar origen y destino
+        Pago->>Cuenta: Debitar origen con bloqueo
+        Pago->>Cuenta: Acreditar destino
+        alt Crédito exitoso
+            Pago->>Pago: Marcar APROBADO
+            Pago->>Kafka: Publicar transacción completada
+            Kafka-->>Cliente: Actualizar última actividad
+        else Crédito fallido
+            Pago->>Cuenta: Compensar origen
+            Pago->>Pago: Marcar RECHAZADO
+            Pago->>Kafka: Publicar alerta
+        end
+        Pago-->>Mobile: Resultado
+    end
+    Mobile-->>Usuario: Respuesta móvil reducida
+

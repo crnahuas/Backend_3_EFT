@@ -17,7 +17,19 @@ mvn -B clean test
 mvn -B -DskipTests package
 ```
 
-El primer comando ejecuta 23 pruebas. El segundo genera los JAR que copian los Dockerfiles.
+El primer comando ejecuta 35 pruebas. Estas incluyen reglas de negocio, autorización por scopes en los tres BFF y una integración real con PostgreSQL mediante Testcontainers. El segundo comando genera los JAR que copian los Dockerfiles.
+
+## Demostración reproducible
+
+Para compilar, levantar la plataforma con dos instancias de cada microservicio de negocio y ejecutar automáticamente el flujo de autenticación, transferencia idempotente, consumo Kafka, dashboard, retiro y rechazo sin token:
+
+```bash
+./scripts/demo-local.sh
+```
+
+El script guarda respuestas y comprobaciones en `docs/evidencias/ultima-ejecucion`. Si los artefactos ya fueron compilados, puede omitirse la compilación con `SKIP_BUILD=true ./scripts/demo-local.sh`.
+
+Como alternativa manual, la colección `postman/Banco-XYZ-EFT.postman_collection.json` puede importarse junto con `postman/Local.postman_environment.json`.
 
 ## Iniciar toda la plataforma
 
@@ -26,7 +38,7 @@ docker compose up -d --build
 docker compose ps
 ```
 
-La primera ejecución descarga PostgreSQL, Kafka y la imagen Java. Espere hasta que los endpoints respondan:
+La primera ejecución descarga PostgreSQL, Kafka y la imagen Java. El servicio de inicialización `kafka-init` crea los dos tópicos con tres particiones antes de iniciar los productores y consumidores. Espere hasta que los endpoints respondan:
 
 ```bash
 curl http://localhost:8888/actuator/health

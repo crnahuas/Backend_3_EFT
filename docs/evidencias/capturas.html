@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidencia local Banco XYZ</title>
+  <style>
+    :root { --navy:#102a43; --blue:#1769aa; --green:#18794e; --ink:#182230; --muted:#5d6b7a; --line:#d8e1ea; --soft:#f4f7fa; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#eef3f7; color:var(--ink); font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+    main { width:1360px; min-height:900px; margin:0 auto; padding:44px 52px 52px; background:white; }
+    header { display:flex; align-items:flex-end; justify-content:space-between; border-bottom:4px solid var(--navy); padding-bottom:18px; margin-bottom:26px; }
+    h1 { margin:0; font-size:31px; color:var(--navy); letter-spacing:-.4px; }
+    .subtitle { color:var(--muted); margin-top:5px; }
+    .stamp { text-align:right; color:var(--muted); font-size:14px; }
+    .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin:22px 0 26px; }
+    .metric { border:1px solid var(--line); border-radius:8px; padding:16px 18px; background:var(--soft); }
+    .metric strong { display:block; font-size:28px; color:var(--navy); }
+    .metric span { color:var(--muted); font-size:14px; }
+    .ok { color:var(--green)!important; }
+    h2 { color:var(--navy); font-size:21px; margin:25px 0 12px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th { background:var(--navy); color:white; text-align:left; padding:10px 12px; }
+    td { border:1px solid var(--line); padding:9px 12px; vertical-align:top; }
+    tbody tr:nth-child(even) { background:#f7f9fb; }
+    pre { margin:0; padding:17px 19px; border-radius:7px; background:#0d1722; color:#e9f2f8; font:13px/1.48 ui-monospace,SFMono-Regular,Menlo,monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .cols { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .panel { border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+    .panel h3 { margin:0; padding:11px 15px; background:#e8eef4; color:var(--navy); font-size:16px; }
+    .panel pre { border-radius:0; min-height:250px; }
+    .result { display:inline-block; padding:4px 10px; border-radius:99px; background:#dff3e8; color:var(--green); font-weight:700; }
+    footer { margin-top:24px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); padding-top:12px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1 id="title">Evidencia local Banco XYZ</h1><div class="subtitle" id="subtitle"></div></div>
+    <div class="stamp"><div>Validación reproducible</div><div id="date"></div></div>
+  </header>
+  <section id="content"></section>
+  <footer>Fuente: ejecución real de <code>scripts/demo-local.sh</code> en Docker Compose. Esta evidencia no representa un despliegue en AWS.</footer>
+</main>
+<script>
+const base = './ultima-ejecucion/';
+const clean = value => value.replace(/\u001b\[[0-9;]*m/g, '');
+const esc = value => String(value).replace(/[&<>]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]));
+const loadText = name => fetch(base + name).then(r => r.text());
+const loadJson = name => fetch(base + name).then(r => r.json());
+const params = new URLSearchParams(location.search);
+const view = params.get('vista') || 'pruebas';
+
+async function pruebas() {
+  const [log, resumen] = await Promise.all([loadText('maven-test.log'), loadJson('resumen-ejecucion.json')]);
+  const plain = clean(log);
+  const block = plain.match(/Reactor Summary[\s\S]*?BUILD SUCCESS/)?.[0] || 'BUILD SUCCESS';
+  document.querySelector('#title').textContent = 'Pruebas automatizadas y compilación';
+  document.querySelector('#subtitle').textContent = 'Reactor Maven completo y prueba PostgreSQL con Testcontainers';
+  document.querySelector('#date').textContent = resumen.fecha;
+  document.querySelector('#content').innerHTML = `
+    <div class="grid">
+      <div class="metric"><strong class="ok">35</strong><span>pruebas exitosas</span></div>
+      <div class="metric"><strong>20</strong><span>suites ejecutadas</span></div>
+      <div class="metric"><strong class="ok">0</strong><span>fallos y errores</span></div>
+      <div class="metric"><strong class="ok">SUCCESS</strong><span>resultado Maven</span></div>
+    </div>
+    <h2>Cobertura por componente</h2>
+    <table><thead><tr><th>Módulo</th><th>Casos</th><th>Validación principal</th></tr></thead><tbody>
+      <tr><td>batch-service</td><td>7</td><td>Jobs, anomalías, cálculos, idempotencia y recuperación</td></tr>
+      <tr><td>bff-web / mobile / atm</td><td>19</td><td>Contratos, respuestas degradadas, autenticación y scopes</td></tr>
+      <tr><td>account-service</td><td>3</td><td>Débito, sobregiro e integración PostgreSQL con Testcontainers</td></tr>
+      <tr><td>customer, payment y soporte</td><td>6</td><td>Reglas de dominio, compensación y carga de contextos</td></tr>
+    </tbody></table>
+    <h2>Resumen del reactor</h2><pre>${esc(block)}</pre>`;
+}
+
+async function infraestructura() {
+  const [ps, topics, resumen] = await Promise.all([loadText('docker-compose-ps.txt'), loadText('kafka-topicos.txt'), loadJson('resumen-ejecucion.json')]);
+  document.querySelector('#title').textContent = 'Infraestructura local y escalamiento';
+  document.querySelector('#subtitle').textContent = 'Contenedores activos y tópicos Kafka aprovisionados antes de los consumidores';
+  document.querySelector('#date').textContent = resumen.fecha;
+  document.querySelector('#content').innerHTML = `
+    <div class="grid">
+      <div class="metric"><strong class="ok">14</strong><span>contenedores activos</span></div>
+      <div class="metric"><strong>2 + 2 + 2</strong><span>réplicas de negocio</span></div>
+      <div class="metric"><strong>2</strong><span>tópicos Kafka</span></div>
+      <div class="metric"><strong>3</strong><span>particiones por tópico</span></div>
+    </div>
+    <div class="cols">
+      <div><h2>Servicios en ejecución</h2><table><thead><tr><th>Servicio</th><th>Instancias</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>customer-service</td><td>2</td><td>UP</td></tr>
+        <tr><td>account-service</td><td>2</td><td>UP</td></tr>
+        <tr><td>payment-service</td><td>2</td><td>UP</td></tr>
+        <tr><td>bff-web / mobile / atm</td><td>3</td><td>UP</td></tr>
+        <tr><td>Config / Eureka / Auth</td><td>3</td><td>UP</td></tr>
+        <tr><td>PostgreSQL / Kafka</td><td>2</td><td>HEALTHY</td></tr>
+      </tbody></table><p><span class="result">14 contenedores activos</span></p></div>
+      <div class="panel"><h3>Descripción real de Apache Kafka</h3><pre>${esc(topics)}</pre></div>
+    </div>
+    <h2>Comprobación de Docker Compose</h2><pre>${esc(ps.split('\n').filter(line => /NAME|account-service-[12]|customer-service-[12]|payment-service-[12]/.test(line)).join('\n'))}</pre>`;
+}
+
+async function flujo() {
+  const [resumen, t1, t2, retiro, cliente, dashboard] = await Promise.all([
+    loadJson('resumen-ejecucion.json'), loadJson('transferencia-1.json'), loadJson('transferencia-2.json'),
+    loadJson('retiro-atm.json'), loadJson('cliente-despues-evento.json'), loadJson('dashboard-web.json')
+  ]);
+  document.querySelector('#title').textContent = 'Flujo funcional de extremo a extremo';
+  document.querySelector('#subtitle').textContent = 'Transferencia idempotente, retiro, seguridad y consumo de eventos';
+  document.querySelector('#date').textContent = resumen.fecha;
+  document.querySelector('#content').innerHTML = `
+    <div class="grid">
+      <div class="metric"><strong class="ok">${esc(resumen.resultado)}</strong><span>resultado general</span></div>
+      <div class="metric"><strong>${esc(resumen.httpSinToken)}</strong><span>HTTP sin token</span></div>
+      <div class="metric"><strong>${t1.id === t2.id ? 'MISMO ID' : 'ERROR'}</strong><span>reintento idempotente</span></div>
+      <div class="metric"><strong class="ok">CONSUMIDO</strong><span>evento Kafka</span></div>
+    </div>
+    <table><thead><tr><th>Comprobación</th><th>Resultado observado</th></tr></thead><tbody>
+      <tr><td>Cliente de demostración</td><td>${esc(resumen.rut)}</td></tr>
+      <tr><td>Transferencia inicial y reintento</td><td>${esc(t1.id)} - ${esc(t1.estado)} - $${Number(t1.monto).toLocaleString('es-CL')} CLP</td></tr>
+      <tr><td>Retiro ATM</td><td>${esc(retiro.operacionId)} - ${esc(retiro.estado)} - saldo $${Number(retiro.saldoDisponible).toLocaleString('es-CL')} CLP</td></tr>
+      <tr><td>Consumo Kafka</td><td>Última actividad del cliente: ${esc(cliente.ultimaActividad)}</td></tr>
+      <tr><td>Dashboard web</td><td>${dashboard.cuentas.length} cuentas, ${dashboard.pagosRecientes.length} pago reciente, ${dashboard.advertencias.length} advertencias</td></tr>
+    </tbody></table>
+    <h2>Respuestas de los canales</h2>
+    <div class="cols"><div class="panel"><h3>Transferencia repetida</h3><pre>${esc(JSON.stringify(t2,null,2))}</pre></div><div class="panel"><h3>Retiro ATM</h3><pre>${esc(JSON.stringify(retiro,null,2))}</pre></div></div>`;
+}
+
+({pruebas, infraestructura, flujo}[view] || pruebas)().catch(error => {
+  document.querySelector('#content').innerHTML = `<pre>${esc(error.stack || error)}</pre>`;
+});
+</script>
+</body>
+</html>

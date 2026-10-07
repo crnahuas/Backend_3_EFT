@@ -1,0 +1,15 @@
+NAME                              IMAGE                           COMMAND                  SERVICE            CREATED              STATUS                        PORTS
+bancoxyz-eft-account-service-1    bancoxyz-eft-account-service    "java -jar /app/app.…"   account-service    About a minute ago   Up About a minute             8092/tcp
+bancoxyz-eft-account-service-2    bancoxyz-eft-account-service    "java -jar /app/app.…"   account-service    About a minute ago   Up About a minute             8092/tcp
+bancoxyz-eft-auth-server-1        bancoxyz-eft-auth-server        "java -jar /app/app.…"   auth-server        About a minute ago   Up About a minute             0.0.0.0:9000->9000/tcp, [::]:9000->9000/tcp
+bancoxyz-eft-bff-atm-1            bancoxyz-eft-bff-atm            "java -jar /app/app.…"   bff-atm            About a minute ago   Up 53 seconds                 0.0.0.0:8083->8083/tcp, [::]:8083->8083/tcp
+bancoxyz-eft-bff-mobile-1         bancoxyz-eft-bff-mobile         "java -jar /app/app.…"   bff-mobile         About a minute ago   Up 52 seconds                 0.0.0.0:8082->8082/tcp, [::]:8082->8082/tcp
+bancoxyz-eft-bff-web-1            bancoxyz-eft-bff-web            "java -jar /app/app.…"   bff-web            About a minute ago   Up 53 seconds                 0.0.0.0:8081->8081/tcp, [::]:8081->8081/tcp
+bancoxyz-eft-config-server-1      bancoxyz-eft-config-server      "java -jar /app/app.…"   config-server      About a minute ago   Up About a minute             0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp
+bancoxyz-eft-customer-service-1   bancoxyz-eft-customer-service   "java -jar /app/app.…"   customer-service   About a minute ago   Up 53 seconds                 8091/tcp
+bancoxyz-eft-customer-service-2   bancoxyz-eft-customer-service   "java -jar /app/app.…"   customer-service   About a minute ago   Up 53 seconds                 8091/tcp
+bancoxyz-eft-discovery-server-1   bancoxyz-eft-discovery-server   "java -jar /app/app.…"   discovery-server   About a minute ago   Up About a minute             0.0.0.0:8761->8761/tcp, [::]:8761->8761/tcp
+bancoxyz-eft-kafka-1              apache/kafka:4.1.1              "/__cacert_entrypoin…"   kafka              About a minute ago   Up About a minute (healthy)   0.0.0.0:29092->29092/tcp, [::]:29092->29092/tcp
+bancoxyz-eft-payment-service-1    bancoxyz-eft-payment-service    "java -jar /app/app.…"   payment-service    About a minute ago   Up 53 seconds                 8093/tcp
+bancoxyz-eft-payment-service-2    bancoxyz-eft-payment-service    "java -jar /app/app.…"   payment-service    About a minute ago   Up 53 seconds                 8093/tcp
+bancoxyz-eft-postgres-1           postgres:16-alpine              "docker-entrypoint.s…"   postgres           About a minute ago   Up About a minute (healthy)   5432/tcp

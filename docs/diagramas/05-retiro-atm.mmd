@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor Cliente
+    participant ATM as bff-atm
+    participant Pago as payment-service
+    participant Cuenta as account-service
+    Cliente->>ATM: Retiro + JWT + idempotency key
+    ATM->>ATM: Validar scope y monto máximo
+    ATM->>Pago: Solicitar retiro
+    Pago->>Pago: Buscar operación por clave
+    alt Clave existente
+        Pago->>Cuenta: Consultar saldo actual
+        Pago-->>ATM: Mismo identificador y resultado
+    else Clave nueva
+        Pago->>Cuenta: Obtener y bloquear cuenta
+        Cuenta->>Cuenta: Validar estado y fondos
+        Cuenta-->>Pago: Debitar monto
+        Pago->>Pago: Marcar APROBADO
+        Pago-->>ATM: ID, estado, monto y saldo
+    end
+    ATM-->>Cliente: Resultado mínimo para el cajero
+

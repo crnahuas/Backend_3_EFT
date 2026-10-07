@@ -1,0 +1,8 @@
+Topic: bancoxyz.transacciones.completadas	TopicId: QTax4s_iRhKYi3qXIgL7oQ	PartitionCount: 3	ReplicationFactor: 1	Configs: min.insync.replicas=1
+	Topic: bancoxyz.transacciones.completadas	Partition: 0	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+	Topic: bancoxyz.transacciones.completadas	Partition: 1	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+	Topic: bancoxyz.transacciones.completadas	Partition: 2	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+Topic: bancoxyz.alertas.seguridad	TopicId: HXJZRIRqQiuJIujFrycwjQ	PartitionCount: 3	ReplicationFactor: 1	Configs: min.insync.replicas=1
+	Topic: bancoxyz.alertas.seguridad	Partition: 0	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+	Topic: bancoxyz.alertas.seguridad	Partition: 1	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 
+	Topic: bancoxyz.alertas.seguridad	Partition: 2	Leader: 1	Replicas: 1	Isr: 1	Elr: 	LastKnownElr: 

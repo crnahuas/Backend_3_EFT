@@ -4,6 +4,12 @@
 
 Este documento describe cómo trasladar los contenedores validados con Docker Compose a AWS con alta disponibilidad, escalamiento horizontal, secretos administrados y observabilidad centralizada. El repositorio contiene la preparación técnica y el procedimiento; la creación de los recursos cloud se realiza al aplicar este plan en una cuenta AWS.
 
+## Estado de esta entrega
+
+La preparación solicitada se materializa en Dockerfiles ejecutables, configuración externalizada, Docker Compose, descubrimiento de servicios, balanceo y una demostración de dos instancias para `customer-service`, `account-service` y `payment-service`. Este documento completa esa preparación con la arquitectura objetivo, el procedimiento, las herramientas y las configuraciones requeridas para AWS.
+
+No se aprovisionaron recursos en una cuenta AWS durante la validación del proyecto, ya que el alcance corresponde a la preparación y explicación del proceso. Por tanto, ECR, ECS Fargate, RDS, MSK, Secrets Manager y CloudWatch se describen como componentes del despliegue propuesto, no como recursos actualmente activos. La evidencia ejecutada pertenece al ambiente local construido con Docker Compose.
+
 ## Servicios propuestos
 
 | Componente local | Servicio AWS | Decisión |

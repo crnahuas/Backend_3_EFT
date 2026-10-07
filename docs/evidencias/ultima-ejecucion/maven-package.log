@@ -1,0 +1,320 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Plataforma de modernización Banco XYZ                              [pom]
+[INFO] batch-service                                                      [jar]
+[INFO] bff-web                                                            [jar]
+[INFO] bff-mobile                                                         [jar]
+[INFO] bff-atm                                                            [jar]
+[INFO] config-server                                                      [jar]
+[INFO] discovery-server                                                   [jar]
+[INFO] auth-server                                                        [jar]
+[INFO] customer-service                                                   [jar]
+[INFO] account-service                                                    [jar]
+[INFO] payment-service                                                    [jar]
+[INFO] 
+[INFO] --------------< cl.duoc.bancoxyz:backend3-eft-banco-xyz >---------------
+[INFO] Building Plataforma de modernización Banco XYZ 1.0.0-SNAPSHOT     [1/11]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -------------------< cl.duoc.bancoxyz:batch-service >-------------------
+[INFO] Building batch-service 1.0.0-SNAPSHOT                             [2/11]
+[INFO]   from batch-service/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ batch-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 10 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ batch-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ batch-service ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/batch-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ batch-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ batch-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ batch-service ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/batch-service/target/batch-service-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ batch-service ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/batch-service/target/batch-service-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/batch-service/target/batch-service-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] ----------------------< cl.duoc.bancoxyz:bff-web >----------------------
+[INFO] Building bff-web 1.0.0-SNAPSHOT                                   [3/11]
+[INFO]   from bff-web/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ bff-web ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ bff-web ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ bff-web ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-web/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ bff-web ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ bff-web ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ bff-web ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-web/target/bff-web-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ bff-web ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-web/target/bff-web-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-web/target/bff-web-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --------------------< cl.duoc.bancoxyz:bff-mobile >---------------------
+[INFO] Building bff-mobile 1.0.0-SNAPSHOT                                [4/11]
+[INFO]   from bff-mobile/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ bff-mobile ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ bff-mobile ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ bff-mobile ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-mobile/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ bff-mobile ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ bff-mobile ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ bff-mobile ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-mobile/target/bff-mobile-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ bff-mobile ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-mobile/target/bff-mobile-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-mobile/target/bff-mobile-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] ----------------------< cl.duoc.bancoxyz:bff-atm >----------------------
+[INFO] Building bff-atm 1.0.0-SNAPSHOT                                   [5/11]
+[INFO]   from bff-atm/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ bff-atm ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ bff-atm ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ bff-atm ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-atm/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ bff-atm ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ bff-atm ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ bff-atm ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-atm/target/bff-atm-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ bff-atm ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-atm/target/bff-atm-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/bff-atm/target/bff-atm-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] -------------------< cl.duoc.bancoxyz:config-server >-------------------
+[INFO] Building config-server 1.0.0-SNAPSHOT                             [6/11]
+[INFO]   from config-server/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ config-server ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 6 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ config-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ config-server ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/config-server/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ config-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ config-server ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ config-server ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/config-server/target/config-server-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ config-server ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/config-server/target/config-server-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/config-server/target/config-server-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] -----------------< cl.duoc.bancoxyz:discovery-server >------------------
+[INFO] Building discovery-server 1.0.0-SNAPSHOT                          [7/11]
+[INFO]   from discovery-server/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ discovery-server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ discovery-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ discovery-server ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/discovery-server/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ discovery-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ discovery-server ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ discovery-server ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/discovery-server/target/discovery-server-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ discovery-server ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/discovery-server/target/discovery-server-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/discovery-server/target/discovery-server-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --------------------< cl.duoc.bancoxyz:auth-server >--------------------
+[INFO] Building auth-server 1.0.0-SNAPSHOT                               [8/11]
+[INFO]   from auth-server/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ auth-server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ auth-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ auth-server ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/auth-server/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ auth-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ auth-server ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ auth-server ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/auth-server/target/auth-server-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ auth-server ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/auth-server/target/auth-server-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/auth-server/target/auth-server-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] -----------------< cl.duoc.bancoxyz:customer-service >------------------
+[INFO] Building customer-service 1.0.0-SNAPSHOT                          [9/11]
+[INFO]   from customer-service/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ customer-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ customer-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ customer-service ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/customer-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ customer-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ customer-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ customer-service ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/customer-service/target/customer-service-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ customer-service ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/customer-service/target/customer-service-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/customer-service/target/customer-service-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] ------------------< cl.duoc.bancoxyz:account-service >------------------
+[INFO] Building account-service 1.0.0-SNAPSHOT                          [10/11]
+[INFO]   from account-service/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ account-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ account-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ account-service ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/account-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ account-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ account-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ account-service ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/account-service/target/account-service-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ account-service ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/account-service/target/account-service-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/account-service/target/account-service-1.0.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] ------------------< cl.duoc.bancoxyz:payment-service >------------------
+[INFO] Building payment-service 1.0.0-SNAPSHOT                          [11/11]
+[INFO]   from payment-service/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ payment-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ payment-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ payment-service ---
+[INFO] skip non existing resourceDirectory /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/payment-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ payment-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ payment-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ payment-service ---
+[INFO] Building jar: /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/payment-service/target/payment-service-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.1:repackage (repackage) @ payment-service ---
+[INFO] Replacing main artifact /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/payment-service/target/payment-service-1.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/cristian/Documents/2026 Duoc/Backend 3/EFT/Backend_3_EFT/payment-service/target/payment-service-1.0.0-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Plataforma de modernización Banco XYZ 1.0.0-SNAPSHOT:
+[INFO] 
+[INFO] Plataforma de modernización Banco XYZ .............. SUCCESS [  0.002 s]
+[INFO] batch-service ...................................... SUCCESS [  0.702 s]
+[INFO] bff-web ............................................ SUCCESS [  0.332 s]
+[INFO] bff-mobile ......................................... SUCCESS [  0.122 s]
+[INFO] bff-atm ............................................ SUCCESS [  0.121 s]
+[INFO] config-server ...................................... SUCCESS [  0.129 s]
+[INFO] discovery-server ................................... SUCCESS [  0.231 s]
+[INFO] auth-server ........................................ SUCCESS [  0.076 s]
+[INFO] customer-service ................................... SUCCESS [  0.369 s]
+[INFO] account-service .................................... SUCCESS [  0.274 s]
+[INFO] payment-service .................................... SUCCESS [  0.286 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.823 s
+[INFO] Finished at: 2026-10-07T13:59:47-03:00
+[INFO] ------------------------------------------------------------------------

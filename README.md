@@ -87,6 +87,8 @@ Las llamadas remotas utilizan Resilience4j y balanceo por nombre de servicio. La
 
 Kafka utiliza los tópicos `bancoxyz.transacciones.completadas` y `bancoxyz.alertas.seguridad`. El servicio de clientes actualiza la última actividad del cliente y persiste las alertas recibidas de forma idempotente.
 
+Compose ejecuta un inicializador de Kafka antes de los servicios de negocio. De esta forma, ambos tópicos existen con tres particiones antes de que se conecten los productores y consumidores.
+
 ## Inicio rápido
 
 Requisitos: Java 17 o superior, Maven 3.9 o superior y Docker Desktop con Compose v2.
@@ -97,6 +99,14 @@ mvn -B -DskipTests package
 docker compose up -d --build
 docker compose ps
 ```
+
+También puede ejecutarse la validación completa y reproducible con:
+
+```bash
+./scripts/demo-local.sh
+```
+
+El script genera datos únicos, escala los servicios de negocio, valida el flujo integral y conserva los resultados en `docs/evidencias/ultima-ejecucion`.
 
 Obtener un token móvil:
 
@@ -138,18 +148,27 @@ Eureka registra cada instancia con un identificador distinto y Spring Cloud Load
 
 - Los tres jobs batch procesaron los nueve archivos oficiales y conservaron sus conteos al repetirse.
 - Los tres BFF respondieron con sus contratos y controles de acceso independientes.
-- Se construyeron y ejecutaron once contenedores con PostgreSQL, Kafka y los servicios Java.
+- Se ejecutaron 35 pruebas automatizadas sin fallos, incluidas pruebas de autorización por scopes e integración con PostgreSQL mediante Testcontainers.
+- Se construyeron las nueve imágenes Java y se levantaron catorce contenedores activos al escalar los tres microservicios de negocio a dos instancias, además del inicializador Kafka de ejecución única.
 - Eureka registró los tres BFF y los tres servicios de negocio.
 - Una transferencia real fue aprobada a través del BFF móvil y su reintento devolvió el mismo identificador sin un segundo débito.
 - El evento de la transferencia actualizó la actividad del cliente mediante Kafka.
 - Los tres servicios de negocio funcionaron con dos instancias simultáneas.
+- La canalización de GitHub Actions ejecuta las pruebas Maven y valida la configuración de Docker Compose.
 
 ## Documentación técnica
 
+- [Repositorio del proyecto en GitHub](https://github.com/crnahuas/Backend_3_EFT)
+- [Informe técnico final en PDF](output/Informe_Tecnico_Banco_XYZ_Final.pdf)
+- [Informe técnico editable en Word](output/Informe_Tecnico_Banco_XYZ.docx)
+- [Fuente Markdown del informe](docs/INFORME_TECNICO.md)
 - [Procesamiento batch](docs/procesamiento-batch.md)
 - [Canales Backend for Frontend](docs/canales-bff.md)
 - [Microservicios y resiliencia](docs/microservicios-y-resiliencia.md)
 - [Instrucciones de ejecución](instrucciones.md)
+- [Colección Postman](postman/Banco-XYZ-EFT.postman_collection.json)
+- [Evidencia reproducible](docs/evidencias/README.md)
+- [Capturas de evidencia](docs/evidencias/imagenes/)
 - [Despliegue en AWS](despliegue.md)
 - [Checklist de cierre](CHECKLIST_PENDIENTES.md)
 

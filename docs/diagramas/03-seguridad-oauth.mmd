@@ -1,0 +1,14 @@
+sequenceDiagram
+    actor Canal
+    participant Auth as auth-server
+    participant BFF as BFF del canal
+    participant Negocio as Microservicio
+    Canal->>Auth: client_id + client_secret + scope
+    Auth-->>Canal: JWT firmado
+    Canal->>BFF: Solicitud + Bearer JWT
+    BFF->>BFF: Validar firma, emisor y scope
+    BFF->>Negocio: Solicitud + mismo Bearer JWT
+    Negocio->>Negocio: Validar nuevamente JWT y permisos
+    Negocio-->>BFF: Resultado del dominio
+    BFF-->>Canal: Respuesta adaptada
+

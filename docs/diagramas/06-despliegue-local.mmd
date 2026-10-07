@@ -1,0 +1,34 @@
+flowchart TB
+    subgraph Host[Equipo local]
+        P8081[8081 bff-web]
+        P8082[8082 bff-mobile]
+        P8083[8083 bff-atm]
+        P9000[9000 auth-server]
+        P8761[8761 Eureka]
+        P8888[8888 Config]
+        P29092[29092 Kafka externo]
+    end
+    subgraph Red[Red privada bancoxyz]
+        WEB[bff-web]
+        MOBILE[bff-mobile]
+        ATM[bff-atm]
+        AUTH[auth-server]
+        DISCOVERY[discovery-server]
+        CONFIG[config-server]
+        CUSTOMER[customer-service x N]
+        ACCOUNT[account-service x N]
+        PAYMENT[payment-service x N]
+        POSTGRES[(PostgreSQL 16)]
+        KAFKA[(Kafka)]
+    end
+    P8081 --> WEB
+    P8082 --> MOBILE
+    P8083 --> ATM
+    P9000 --> AUTH
+    P8761 --> DISCOVERY
+    P8888 --> CONFIG
+    P29092 --> KAFKA
+    WEB & MOBILE & ATM --> CUSTOMER & ACCOUNT & PAYMENT
+    CUSTOMER & ACCOUNT & PAYMENT --> POSTGRES
+    CUSTOMER & PAYMENT --> KAFKA
+

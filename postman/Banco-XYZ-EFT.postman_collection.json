@@ -1,0 +1,105 @@
+{
+  "info": {
+    "_postman_id": "bc5b9764-4f48-4cf4-b132-efd36d89e5cf",
+    "name": "Banco XYZ EFT",
+    "description": "Pruebas locales de autenticación, BFF, idempotencia y separación de scopes. Ejecute primero scripts/demo-local.sh para crear datos controlados.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Token web",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Token web emitido', () => pm.response.to.have.status(200));", "pm.environment.set('token_web', pm.response.json().access_token);"]}}],
+          "request": {
+            "auth": {"type": "basic", "basic": [{"key": "username", "value": "bff-web", "type": "string"}, {"key": "password", "value": "web-secret", "type": "string"}]},
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/x-www-form-urlencoded"}],
+            "body": {"mode": "urlencoded", "urlencoded": [{"key": "grant_type", "value": "client_credentials"}, {"key": "scope", "value": "web"}]},
+            "url": "{{auth_url}}/oauth2/token"
+          }
+        },
+        {
+          "name": "Token móvil",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Token móvil emitido', () => pm.response.to.have.status(200));", "pm.environment.set('token_mobile', pm.response.json().access_token);"]}}],
+          "request": {
+            "auth": {"type": "basic", "basic": [{"key": "username", "value": "bff-mobile", "type": "string"}, {"key": "password", "value": "mobile-secret", "type": "string"}]},
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/x-www-form-urlencoded"}],
+            "body": {"mode": "urlencoded", "urlencoded": [{"key": "grant_type", "value": "client_credentials"}, {"key": "scope", "value": "mobile"}]},
+            "url": "{{auth_url}}/oauth2/token"
+          }
+        },
+        {
+          "name": "Token cajero",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Token de cajero emitido', () => pm.response.to.have.status(200));", "pm.environment.set('token_atm', pm.response.json().access_token);"]}}],
+          "request": {
+            "auth": {"type": "basic", "basic": [{"key": "username", "value": "bff-atm", "type": "string"}, {"key": "password", "value": "atm-secret", "type": "string"}]},
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/x-www-form-urlencoded"}],
+            "body": {"mode": "urlencoded", "urlencoded": [{"key": "grant_type", "value": "client_credentials"}, {"key": "scope", "value": "atm.read atm.withdraw"}]},
+            "url": "{{auth_url}}/oauth2/token"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Canal web",
+      "item": [
+        {
+          "name": "Dashboard completo",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Dashboard disponible', () => pm.response.to.have.status(200));", "pm.test('Incluye cliente y cuentas', () => { const r = pm.response.json(); pm.expect(r.cliente).to.exist; pm.expect(r.cuentas).to.be.an('array'); });"]}}],
+          "request": {"auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{token_web}}", "type": "string"}]}, "method": "GET", "url": "{{web_url}}/api/web/clientes/{{rut_demo}}/dashboard"}
+        }
+      ]
+    },
+    {
+      "name": "Canal móvil",
+      "item": [
+        {
+          "name": "Resumen ligero",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Resumen disponible', () => pm.response.to.have.status(200));", "pm.test('Payload móvil resumido', () => { const r = pm.response.json(); pm.expect(r).to.have.property('saldoTotal'); pm.expect(r).to.have.property('cuentasActivas'); });"]}}],
+          "request": {"auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{token_mobile}}", "type": "string"}]}, "method": "GET", "url": "{{mobile_url}}/api/mobile/clientes/{{rut_demo}}/resumen"}
+        },
+        {
+          "name": "Transferencia idempotente",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Transferencia aceptada', () => pm.response.to.have.status(202));", "const id = pm.response.json().id;", "const anterior = pm.environment.get('transferencia_operacion_id');", "if (anterior) pm.test('El reintento conserva el identificador', () => pm.expect(id).to.eql(anterior));", "pm.environment.set('transferencia_operacion_id', id);"]}}],
+          "request": {
+            "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{token_mobile}}", "type": "string"}]},
+            "method": "POST",
+            "header": [{"key": "X-Idempotency-Key", "value": "{{transferencia_key}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"cuentaOrigen\": \"{{cuenta_origen}}\",\n  \"cuentaDestino\": \"{{cuenta_destino}}\",\n  \"monto\": 10000,\n  \"descripcion\": \"Prueba Postman\"\n}"},
+            "url": "{{mobile_url}}/api/mobile/transferencias"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Canal cajero",
+      "item": [
+        {
+          "name": "Consultar saldo",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Saldo disponible', () => pm.response.to.have.status(200));"]}}],
+          "request": {"auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{token_atm}}", "type": "string"}]}, "method": "GET", "url": "{{atm_url}}/api/cajero/cuentas/{{cuenta_origen}}/saldo"}
+        },
+        {
+          "name": "Retiro idempotente",
+          "event": [{"listen": "test", "script": {"exec": ["pm.test('Retiro aceptado', () => pm.response.to.have.status(202));", "const id = pm.response.json().operacionId;", "const anterior = pm.environment.get('retiro_operacion_id');", "if (anterior) pm.test('El reintento conserva el identificador', () => pm.expect(id).to.eql(anterior));", "pm.environment.set('retiro_operacion_id', id);"]}}],
+          "request": {
+            "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{token_atm}}", "type": "string"}]},
+            "method": "POST",
+            "header": [{"key": "X-Idempotency-Key", "value": "{{retiro_key}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"numeroCuenta\": \"{{cuenta_origen}}\",\n  \"monto\": 20000\n}"},
+            "url": "{{atm_url}}/api/cajero/retiros"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Seguridad negativa",
+      "event": [{"listen": "test", "script": {"exec": ["pm.test('Sin token responde 401', () => pm.response.to.have.status(401));"]}}],
+      "request": {"auth": {"type": "noauth"}, "method": "GET", "url": "{{mobile_url}}/api/mobile/clientes/{{rut_demo}}/resumen"}
+    }
+  ]
+}

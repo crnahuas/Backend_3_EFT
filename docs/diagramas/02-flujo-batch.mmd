@@ -1,0 +1,17 @@
+flowchart TD
+    A[Solicitud de ejecución] --> B[Crear instancia del job]
+    B --> C[Limpiar tablas propias del job]
+    C --> D[Descubrir tres recursos CSV]
+    D --> E[Crear una partición por archivo]
+    E --> F[Leer registros]
+    F --> G[Validar y transformar]
+    G --> H{¿Fila estructuralmente legible?}
+    H -- Sí --> I[Clasificar como VALIDO o ANOMALIA]
+    H -- No, dentro del límite --> J[Omitir y registrar advertencia]
+    H -- No, sobre el límite --> K[Marcar ejecución FAILED]
+    I --> L[Escritura JDBC en chunks de 100]
+    J --> F
+    L --> M[Generar resumen o detectar duplicados]
+    M --> N[Auditar estado y métricas del job]
+    K --> O[Reinicio automático hasta dos veces]
+

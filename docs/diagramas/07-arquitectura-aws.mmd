@@ -1,0 +1,23 @@
+flowchart TB
+    INTERNET((Usuarios)) --> ALB[Application Load Balancer<br/>HTTPS + ACM]
+    subgraph VPC[VPC en dos o más zonas]
+        subgraph Publicas[Subredes públicas]
+            ALB
+        end
+        subgraph Aplicacion[Subredes privadas de aplicación]
+            BFF[ECS Fargate<br/>BFF y auth]
+            SUPPORT[ECS Fargate<br/>Config y Eureka]
+            BUSINESS[ECS Fargate<br/>clientes, cuentas y pagos]
+        end
+        subgraph Datos[Subredes privadas de datos]
+            RDS[(RDS PostgreSQL<br/>Multi-AZ)]
+            MSK[(Amazon MSK)]
+        end
+    end
+    ECR[(Amazon ECR)] --> BFF & SUPPORT & BUSINESS
+    ALB --> BFF
+    BFF --> BUSINESS
+    BUSINESS --> RDS & MSK
+    SUPPORT -. configuración y descubrimiento .-> BFF & BUSINESS
+    SECRETS[AWS Secrets Manager] -. secretos .-> BFF & BUSINESS
+    BFF & SUPPORT & BUSINESS --> CW[CloudWatch Logs y métricas]
