@@ -1,4 +1,17 @@
 **/target/
+.env
+.env.*
+!env.example
+.DS_Store
+**/.DS_Store
+tmp/
+output/~$*
+*.zip
+*.mv.db
+*.trace.db
 .vscode/
 .idea/
 *.iml
+.classpath
+.project
+.settings/
