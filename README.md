@@ -169,8 +169,8 @@ Eureka registra cada instancia con un identificador distinto y Spring Cloud Load
 - [Colección Postman](postman/Banco-XYZ-EFT.postman_collection.json)
 - [Evidencia reproducible](docs/evidencias/README.md)
 - [Capturas de evidencia](docs/evidencias/imagenes/)
+- [Guion y material visual del video](material-video/README.md)
 - [Despliegue en AWS](despliegue.md)
-- [Checklist de cierre](CHECKLIST_PENDIENTES.md)
 
 ## Fuente de datos
 
