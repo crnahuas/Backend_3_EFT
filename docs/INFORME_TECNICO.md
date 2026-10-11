@@ -2,15 +2,6 @@
 
 ## Procesamiento batch, microservicios, canales BFF, seguridad distribuida y mensajería asíncrona
 
-| Antecedente | Información |
-|---|---|
-| Institución | Duoc UC |
-| Asignatura | Backend III |
-| Evaluación | Examen Final Transversal |
-| Estudiante | Cristian Nahuas |
-| Docente | **[Completar nombre]** |
-| Sección | **[Completar sección]** |
-| Fecha | Octubre de 2026 |
 | Repositorio | <https://github.com/crnahuas/Backend_3_EFT> |
 
 ---
