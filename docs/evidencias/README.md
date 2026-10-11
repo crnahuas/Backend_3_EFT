@@ -35,6 +35,4 @@ La carpeta `imagenes` contiene cuatro láminas preparadas a partir de los result
 
 `capturas.html` permite revisar las cuatro evidencias en una sola vista local.
 
-Los tokens OAuth2 no se guardan. Los clientes, cuentas, UUID y credenciales visibles corresponden exclusivamente a datos académicos generados para la demostración local.
-
 Esta evidencia comprueba la ejecución local con Docker Compose. No representa recursos desplegados en AWS; `despliegue.md` describe únicamente la preparación y el procedimiento propuesto para ese entorno.
